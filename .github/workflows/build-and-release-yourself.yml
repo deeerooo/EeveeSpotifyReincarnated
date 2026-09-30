@@ -100,6 +100,9 @@ jobs:
           INJECT=("$DYLIB_SRC")
           [ -n "$FRAMEWORK_SRC" ] && INJECT+=("$FRAMEWORK_SRC")
           [ -n "$BUNDLE_SRC" ]    && INJECT+=("$BUNDLE_SRC")
+          GLASS="${{ github.workspace }}/layout/Library/MobileSubstrate/DynamicLibraries/spotifyglass.dylib"
+          if [ ! -f "$GLASS" ]; then echo "::error::spotifyglass.dylib not found"; exit 1; fi
+          INJECT+=("$GLASS")
 
           cyan -i ${{ github.workspace }}/spotify.ipa -o "$OUT" \
                -f "${INJECT[@]}" -c 9 -m 15.0 -du
